@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset='utf-8' />
+		<title>Archenemy</title>
+		<style>
+			body{
+				background-color:#181510;
+				text-align:center;
+				overflow:hidden;
+			}
+			#view{
+				width:100%;
+				height:100%;
+				position:absolute;
+				top:0px;
+				left:0px;
+			}
+			#refresh{
+				font-size:1em;
+				position:absolute;
+				width:3.5em;
+				height:3.5em;
+				top:0px;
+				left:0px;
+				z-index:1;
+				opacity:0.3;
+			}
+			#content{
+				position:absolute;
+				bottom:0;
+				left:0;
+				top:0;
+				right:0;
+				margin:auto;
+			}
+			#card{
+				position:absolute;
+				width:inherit;
+				height:inherit;
+				bottom:0;
+				left:0;
+				top:0;
+				right:0;
+				margin:auto;
+				z-index:0;
+			}
+			#select{
+				font-size:1.65em;
+				margin-top:1.68em;
+				z-index:1;
+				opacity:0.0;
+				display:none;
+			}
+		</style>
+	</head>
+	<body onresize='resize()'>
+		<div id='view' >
+			<div id='content'>
+				<img id='card' src='img/Back.jpg'/>
+				<select id="select"></select>
+				<button id='refresh' onclick='random()'></button>
+			</div>
+		</div>
+	</body>
+	<script src='js/jquery-1.10.2.min.js'></script>
+	<script type='text/javascript'>
+		var cards = [
+			'A_Display_of_My_Dark_Power',
+			'All_in_Good_Time',
+			'All_Shall_Smolder_in_My_Wake',
+			'Approach_My_Molten_Realm',
+			'Behold_the_Power_of_Destruction',
+			'Choose_Your_Champion',
+			'Dance_Pathetic_Marionette',
+			'Embrace_My_Diabolical_Vision',
+			'Every_Hope_Shall_Vanish',
+			'Every_Last_Vestige_Shall_Rot',
+			'Evil_Comes_to_Fruition',
+			'Feed_the_Machine',
+			'I_Bask_in_Your_Silent_Awe',
+			'I_Call_on_the_Ancient_Magics',
+			'I_Delight_in_Your_Convulsions',
+			'I_Know_All_I_See_All',
+			'Ignite_the_Cloneforge!',
+			'Into_the_Earthen_Maw',
+			'Introductions_Are_in_Order',
+			'Know_Naught_but_Fire',
+			'Look_Skyward_and_Despair',
+			'May_Civilization_Collapse',
+			'Mortal_Flesh_Is_Weak',
+			'My_Crushing_Masterstroke',
+			'My_Genius_Knows_No_Bounds',
+			'My_Undead_Horde_Awakens',
+			'My_Wish_Is_Your_Command',
+			'Nature_Demands_an_Offering',
+			'Nature_Shields_Its_Own',
+			'Nothing_Can_Stop_Me_Now',
+			'Only_Blood_Ends_Your_Nightmares',
+			'Plots_That_Span_Centuries',
+			'Realms_Befitting_My_Majesty',
+			'Roots_of_All_Evil',
+			'Rotted_Ones_Lay_Siege',
+			'Surrender_Your_Thoughts',
+			'The_Dead_Shall_Serve',
+			'The_Fate_of_the_Flammable',
+			'The_Iron_Guardian_Stirs',
+			'The_Pieces_Are_Coming_Together',
+			'The_Very_Soil_Shall_Shake',
+			'Tooth_Claw_and_Tail',
+			'Which_of_You_Burns_Brightest',
+			'Your_Fate_Is_Thrice_Sealed',
+			'Your_Puny_Minds_Cannot_Fathom',
+			'Your_Will_Is_Not_Your_Own'
+		];
+
+		$(document).ready(resize(), populateSelect());
+
+		function resize() {
+			var width = $('#view').width();
+			var height = $('#view').height();
+
+			if (width/height < 0.69799) {
+				$('#content').css('width', width);
+				$('#content').css('height', width*1.43269);
+			} else {
+				$('#content').css('width', height*0.69799);
+				$('#content').css('height', height);
+			}
+
+			$('body').css('font-size', $('#content').width()/32);
+		}
+
+		function populateSelect () {
+			for (var i=0; i<cards.length; ++i) {
+				$("#select").append("<option value="+i+">"+cards[i].replace(/_/g, ' ')+"</option>");
+			}
+		}
+
+		$("#select").on("change", function() {
+			$('#card').attr('src', 'img/' + cards[$(this).val()].replace(/ /g, '_') + '.jpg')
+		});
+
+		function random () {
+			var select = $('#select');
+			var randomnumber = Math.floor(Math.random()*(cards.length-1));
+			randomnumber = select.val() == randomnumber?randomnumber+1:randomnumber;
+			select.show();
+			select.val(randomnumber);
+			select.change();
+		}
+	</script>
+</html>
