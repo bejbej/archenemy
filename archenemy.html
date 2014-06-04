@@ -144,7 +144,7 @@
 		function random () {
 			var select = $('#select');
 			var randomnumber = Math.floor(Math.random()*(cards.length-1));
-			randomnumber = select.val() == randomnumber?randomnumber+1:randomnumber;
+			randomnumber = randomnumber >= select.val()?randomnumber+1:randomnumber;
 			select.show();
 			select.val(randomnumber);
 			select.change();
