@@ -3,9 +3,12 @@
 	<head>
 		<meta charset='utf-8' />
 		<title>Archenemy</title>
+		<meta name="theme-color" content="#181510" />
 		<style>
-			body{
+			html {
 				background-color:#181510;
+			}
+			body{
 				text-align:center;
 				overflow:hidden;
 			}
@@ -25,6 +28,9 @@
 				left:0px;
 				z-index:1;
 				opacity:0.3;
+				border: 0;
+				border-radius: 0;
+				outline: none !important;
 			}
 			#content{
 				position:absolute;
@@ -46,108 +52,91 @@
 				z-index:0;
 			}
 			#select{
-				font-size:1.65em;
-				margin-top:1.68em;
+				font-size:1.2em;
+				margin-top:1em;
+				height:2em;
 				z-index:1;
 				opacity:0.0;
 				display:none;
 			}
 		</style>
 	</head>
-	<body onresize='resize()'>
+	<body>
 		<div id='view' >
 			<div id='content'>
 				<img id='card' src='img/Back.jpg'/>
 				<select id="select"></select>
-				<button id='refresh' onclick='random()'></button>
+				<button id='refresh'></button>
 			</div>
 		</div>
 	</body>
-	<script src='js/jquery-1.10.2.min.js'></script>
 	<script type='text/javascript'>
-		var cards = [
-			'A_Display_of_My_Dark_Power',
-			'All_in_Good_Time',
-			'All_Shall_Smolder_in_My_Wake',
-			'Approach_My_Molten_Realm',
-			'Behold_the_Power_of_Destruction',
-			'Choose_Your_Champion',
-			'Dance_Pathetic_Marionette',
-			'Embrace_My_Diabolical_Vision',
-			'Every_Hope_Shall_Vanish',
-			'Every_Last_Vestige_Shall_Rot',
-			'Evil_Comes_to_Fruition',
-			'Feed_the_Machine',
-			'I_Bask_in_Your_Silent_Awe',
-			'I_Call_on_the_Ancient_Magics',
-			'I_Delight_in_Your_Convulsions',
-			'I_Know_All_I_See_All',
-			'Ignite_the_Cloneforge!',
-			'Into_the_Earthen_Maw',
-			'Introductions_Are_in_Order',
-			'Know_Naught_but_Fire',
-			'Look_Skyward_and_Despair',
-			'May_Civilization_Collapse',
-			'Mortal_Flesh_Is_Weak',
-			'My_Crushing_Masterstroke',
-			'My_Genius_Knows_No_Bounds',
-			'My_Undead_Horde_Awakens',
-			'My_Wish_Is_Your_Command',
-			'Nature_Demands_an_Offering',
-			'Nature_Shields_Its_Own',
-			'Nothing_Can_Stop_Me_Now',
-			'Only_Blood_Ends_Your_Nightmares',
-			'Plots_That_Span_Centuries',
-			'Realms_Befitting_My_Majesty',
-			'Roots_of_All_Evil',
-			'Rotted_Ones_Lay_Siege',
-			'Surrender_Your_Thoughts',
-			'The_Dead_Shall_Serve',
-			'The_Fate_of_the_Flammable',
-			'The_Iron_Guardian_Stirs',
-			'The_Pieces_Are_Coming_Together',
-			'The_Very_Soil_Shall_Shake',
-			'Tooth_Claw_and_Tail',
-			'Which_of_You_Burns_Brightest',
-			'Your_Fate_Is_Thrice_Sealed',
-			'Your_Puny_Minds_Cannot_Fathom',
-			'Your_Will_Is_Not_Your_Own'
-		];
+		(function() {
+			var cards = ["A_Display_of_My_Dark_Power","All_in_Good_Time","All_Shall_Smolder_in_My_Wake","Approach_My_Molten_Realm","A_Reckoning_Approaches","Because_I_Have_Willed_It","Behold_My_Grandeur","Behold_the_Power_of_Destruction","Bow_to_My_Command","Choose_Your_Champion","Choose_Your_Demise","Dance,_Pathetic_Marionette","Delight_in_the_Hunt","Drench_The_Soil_In_Their_Blood","Embrace_My_Diabolical_Vision","Every_Dream_a_Nightmare","Every_Hope_Shall_Vanish","Every_Last_Vestige_Shall_Rot","Evil_Comes_to_Fruition","Feed_the_Machine","For_Each_of_You,_a_Gift","I_Bask_in_Your_Silent_Awe","I_Call_on_the_Ancient_Magics","I_Delight_in_Your_Convulsions","Ignite_the_Cloneforge","I_Know_All,_I_See_All","Imprison_This_Insolent_Wretch","Into_the_Earthen_Maw","Introductions_Are_in_Order","Know_Evil","Know_Naught_but_Fire","Look_Skyward_and_Despair","Make_Yourself_Useful","May_Civilization_Collapse","Mortal_Flesh_Is_Weak","My_Crushing_Masterstroke","My_Forces_Are_Innumerable","My_Genius_Knows_No_Bounds","My_Laughter_Echoes","My_Undead_Horde_Awakens","My_Wish_Is_Your_Command","Nature_Demands_an_Offering","Nature_Shields_Its_Own","No_One_Will_Hear_Your_Cries","Nothing_Can_Stop_Me_Now","Only_Blood_Ends_Your_Nightmares","Pay_Tribute_to_Me","Perhaps_You've_Met_My_Cohort","Plots_That_Span_Centuries","Power_Without_Equal","Realms_Befitting_My_Majesty","Roots_of_All_Evil","Rotted_Ones,_Lay_Siege","Surrender_Your_Thoughts","The_Dead_Shall_Serve","The_Fate_of_the_Flammable","The_Iron_Guardian_Stirs","The_Mighty_Will_Fall","The_Pieces_Are_Coming_Together","There_Is_No_Refuge","The_Very_Soil_Shall_Shake","This_World_Belongs_to_Me","Tooth,_Claw,_and_Tail","What's_Yours_Is_Now_Mine","When_Will_You_Learn","Which_of_You_Burns_Brightest","Your_Fate_Is_Thrice_Sealed","Your_Inescapable_Doom","Your_Puny_Minds_Cannot_Fathom","Your_Will_Is_Not_Your_Own"];
+			var view = document.getElementById("view");
+			var content = document.getElementById("content");
+			var select = document.getElementById("select");
+			var refresh = document.getElementById("refresh");
+			var card = document.getElementById("card");
+			var delayedResize = false;
+			var timeout;
 
-		$(document).ready(resize(), populateSelect());
+			function resize() {
+				var width = view.offsetWidth;
+				var height = view.offsetHeight;
 
-		function resize() {
-			var width = $('#view').width();
-			var height = $('#view').height();
+				if (width < height * 0.69799) {
+					content.style.width = width + "px";
+					content.style.height = width * 1.43269 + "px";
+				}
+				else {
+					content.style.width = height * 0.69799 + "px";
+					content.style.height = height + "px";
+				}
 
-			if (width/height < 0.69799) {
-				$('#content').css('width', width);
-				$('#content').css('height', width*1.43269);
-			} else {
-				$('#content').css('width', height*0.69799);
-				$('#content').css('height', height);
+				document.body.style.fontSize = content.offsetWidth / 32 + "pt";
 			}
 
-			$('body').css('font-size', $('#content').width()/32);
-		}
+			function throttleResize() {
+				if (timeout !== undefined) {
+					delayedResize = true;
+					return;
+				}
 
-		function populateSelect () {
-			for (var i=0; i<cards.length; ++i) {
-				$("#select").append("<option value="+i+">"+cards[i].replace(/_/g, ' ')+"</option>");
+				resize();
+				timeout = window.setTimeout(function() {
+					if (delayedResize) {
+						resize();
+					}
+
+					timeout = undefined;
+					delayedResize = false;
+				});
 			}
-		}
 
-		$("#select").on("change", function() {
-			$('#card').attr('src', 'img/' + cards[$(this).val()].replace(/ /g, '_') + '.jpg')
-		});
+			function random() {
+				var randomNumber = Math.floor(Math.random() * (cards.length - 1));
+				randomNumber = randomNumber >= select.value ? randomNumber + 1 : randomNumber;
+				select.style.display = "inline";
+				select.value = randomNumber;
+				change();
+			}
 
-		function random () {
-			var select = $('#select');
-			var randomnumber = Math.floor(Math.random()*(cards.length-1));
-			randomnumber = randomnumber >= select.val()?randomnumber+1:randomnumber;
-			select.show();
-			select.val(randomnumber);
-			select.change();
-		}
+			function change() {
+				card.setAttribute("src", "img/" + cards[select.value] + ".jpg");
+			}
+
+			for (var i = 0; i < cards.length; ++i) {
+				var option = document.createElement("option");
+				option.value = i;
+				option.textContent = cards[i].replace(/_/g, " ");
+				select.appendChild(option);
+			}
+
+			resize();
+			window.addEventListener("resize", resize);
+			refresh.addEventListener("click", random);
+			select.addEventListener("change", change);
+		})();
 	</script>
 </html>
