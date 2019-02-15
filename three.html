@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='utf-8' />
+<title>Archenemy</title>
+<meta name="theme-color" content="#181510" />
+<style>
+	html {
+		background-color:#181510;
+		font-family: "Arial", "Helvetica", "sans-serif";
+	}
+	body{
+		text-align:center;
+		overflow:hidden;
+	}
+	#view{
+		width:100%;
+		height:100%;
+		position:absolute;
+		top:0px;
+		left:0px;
+	}
+	#refresh{
+		font-size:1em;
+		position:absolute;
+		width:3.5em;
+		height:3.5em;
+		top:0px;
+		left:0px;
+		z-index:1;
+		opacity:0.3;
+		border: 0;
+		border-radius: 0;
+		outline: none !important;
+		touch-action: manipulation;
+	}
+	#content{
+		position:absolute;
+		bottom:0;
+		left:0;
+		top:0;
+		right:0;
+		margin:auto;
+	}
+	.card{
+		height:100%;
+		width: 33%;
+	}
+	#loading{
+		top: 12em;
+		position: absolute;
+		width: 100%;
+		z-index: 1;
+		opacity: 0;
+		pointer-events: none;
+	}
+	#loading>*{
+		padding: 1em 2em;
+		color: white;
+		border-radius: 0.5em;
+		background-color: rgba(0,0,0,0.8);
+	}
+</style>
+</head>
+<body>
+<div id='view' >
+	<div id='content'>
+		<div id='loading'><span>Loading</span></div>
+		<button id="refresh"></button>
+		<img id="card1" class="card" />
+		<img id="card2" class="card" />
+		<img id="card3" class="card" />
+	</div>
+</div>
+</body>
+<script type='text/javascript'>
+(function() {
+	var cards = ["A_Display_of_My_Dark_Power","All_in_Good_Time","All_Shall_Smolder_in_My_Wake","Approach_My_Molten_Realm","A_Reckoning_Approaches","Because_I_Have_Willed_It","Behold_My_Grandeur","Behold_the_Power_of_Destruction","Bow_to_My_Command","Choose_Your_Champion","Choose_Your_Demise","Dance,_Pathetic_Marionette","Delight_in_the_Hunt","Drench_The_Soil_In_Their_Blood","Embrace_My_Diabolical_Vision","Every_Dream_a_Nightmare","Every_Hope_Shall_Vanish","Every_Last_Vestige_Shall_Rot","Evil_Comes_to_Fruition","Feed_the_Machine","For_Each_of_You,_a_Gift","I_Bask_in_Your_Silent_Awe","I_Call_on_the_Ancient_Magics","I_Delight_in_Your_Convulsions","Ignite_the_Cloneforge","I_Know_All,_I_See_All","Imprison_This_Insolent_Wretch","Into_the_Earthen_Maw","Introductions_Are_in_Order","Know_Evil","Know_Naught_but_Fire","Look_Skyward_and_Despair","Make_Yourself_Useful","May_Civilization_Collapse","Mortal_Flesh_Is_Weak","My_Crushing_Masterstroke","My_Forces_Are_Innumerable","My_Genius_Knows_No_Bounds","My_Laughter_Echoes","My_Undead_Horde_Awakens","My_Wish_Is_Your_Command","Nature_Demands_an_Offering","Nature_Shields_Its_Own","No_One_Will_Hear_Your_Cries","Nothing_Can_Stop_Me_Now","Only_Blood_Ends_Your_Nightmares","Pay_Tribute_to_Me","Perhaps_You've_Met_My_Cohort","Plots_That_Span_Centuries","Power_Without_Equal","Realms_Befitting_My_Majesty","Roots_of_All_Evil","Rotted_Ones,_Lay_Siege","Surrender_Your_Thoughts","The_Dead_Shall_Serve","The_Fate_of_the_Flammable","The_Iron_Guardian_Stirs","The_Mighty_Will_Fall","The_Pieces_Are_Coming_Together","There_Is_No_Refuge","The_Very_Soil_Shall_Shake","This_World_Belongs_to_Me","Tooth,_Claw,_and_Tail","What's_Yours_Is_Now_Mine","When_Will_You_Learn","Which_of_You_Burns_Brightest","Your_Fate_Is_Thrice_Sealed","Your_Inescapable_Doom","Your_Puny_Minds_Cannot_Fathom","Your_Will_Is_Not_Your_Own"];
+	var view = document.getElementById("view");
+	var content = document.getElementById("content");
+	var button = document.getElementById("refresh");
+	var card1 = document.getElementById("card1");
+	var card2 = document.getElementById("card2");
+	var card3 = document.getElementById("card3");
+	var delayedResize = false;
+	var timeout;
+
+	function resize() {
+		var width = view.offsetWidth;
+		var height = view.offsetHeight;
+
+		if (width < height * 2.14286) {
+			content.style.width = width + "px";
+			content.style.height = width * 0.46667 + "px";
+		}
+		else {
+			content.style.width = height * 2.14286 + "px";
+			content.style.height = height + "px";
+		}
+
+		document.body.style.fontSize = content.offsetWidth / 96 + "pt";
+	}
+
+	function throttleResize() {
+		if (timeout !== undefined) {
+			delayedResize = true;
+			return;
+		}
+
+		resize();
+		timeout = window.setTimeout(function() {
+			if (delayedResize) {
+				resize();
+			}
+
+			timeout = undefined;
+			delayedResize = false;
+		});
+	}
+
+	function refresh() {
+		var index1 = Math.floor(Math.random() * (cards.length - 1));
+		var index2 = Math.floor(Math.random() * (cards.length - 2));
+		var index3 = Math.floor(Math.random() * (cards.length - 3));
+
+		if (index2 === index1) {
+			index2 = cards.length - 1;
+		}
+
+		if (index3 === index2 || index3 === index1) {
+			index3 = cards.length -2;
+		}
+
+		card1.setAttribute("src", "img/" + cards[index1] + ".jpg");
+		card2.setAttribute("src", "img/" + cards[index2] + ".jpg");
+		card3.setAttribute("src", "img/" + cards[index3] + ".jpg");
+		showLoading();
+	}
+
+	function showLoading() {
+		loading.style.opacity = "1";
+		loading.style.transitionDuration = "200ms";
+	}
+
+	function hideLoading() {
+		if (card1.complete && card2.complete && card3.complete) {
+			loading.style.opacity = "0";
+			loading.style.transitionDuration = "0";
+		}
+	}
+
+	resize();
+	refresh();
+	window.addEventListener("resize", resize);
+	button.addEventListener("click", refresh);
+	card1.addEventListener("load", hideLoading);
+	card2.addEventListener("load", hideLoading);
+	card3.addEventListener("load", hideLoading);
+})();
+</script>
+</html>
